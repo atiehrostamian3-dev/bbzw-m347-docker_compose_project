@@ -184,3 +184,24 @@ Was war schwierig oder noch unklar?
 
 Antwort:
 Individuell (z. B. Netzwerkverständnis, Volumes, ENV-Konfiguration)
+
+
+#**************************************
+# Fragen – Integration der Services
+
+## 1. Services
+- **Definierte Services**: api, db, adminer, frontend.
+- **Aufgabe db**: Speichert die Daten in einer PostgreSQL-Datenbank.
+
+## 2. Service-Kommunikation
+- **Hostname für API**: Die API verwendet den Servicenamen `db`.
+- **Warum nicht localhost?**: Weil `localhost` innerhalb eines Containers immer auf den eigenen Container zeigt.
+
+## 3. Ports
+- **API**: 8000
+- **Adminer**: 8080
+- **Frontend**: 3000
+
+## 4. Persistenz
+- **Daten ohne Volume**: Wenn der Container gelöscht wird, gehen die Daten verloren.
+- **Umsetzung**: Durch ein Docker-Volume (`postgres_data`), das mit `/var/lib/postgresql/data` verbunden ist.
