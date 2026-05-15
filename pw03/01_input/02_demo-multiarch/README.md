@@ -101,15 +101,3 @@ docker buildx imagetools inspect DEIN_USERNAME/demo-multiarch:1.0
 **Erwartete Ausgabe:** Zwei Manifests — eines für amd64, eines für arm64.
 
 ---
-
-## Bonus: Architektur im Build-Prozess ausgeben
-
-Im Dockerfile ist `ARG TARGETARCH` gesetzt. Baue mit verbose Output:
-
-```bash
-docker buildx build \
-  --platform linux/arm64 \
-  --progress=plain \
-  --load \
-  -t demo-multiarch:arm64 . 2>&1 | grep -i "arch\|platform\|baue"
-```
