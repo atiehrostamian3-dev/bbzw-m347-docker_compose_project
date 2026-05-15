@@ -1,9 +1,11 @@
 # syntax=docker/dockerfile:1
 
 # Stage 1 – Build
-# BUILDPLATFORM = Plattform des Build-Hosts (z. B. linux/amd64)
-# Abhängigkeiten werden immer auf dem Host gebaut (schneller als QEMU-Emulation)
+# Läuft unter QEMU-Emulation auf der ZIEL-Plattform (z. B. linux/arm/v7)
+# build-essential liefert gcc/g++ für Packages ohne vorgefertigte ARM-Wheels
 FROM python:3.12-slim AS builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
 COPY requirements.txt .
