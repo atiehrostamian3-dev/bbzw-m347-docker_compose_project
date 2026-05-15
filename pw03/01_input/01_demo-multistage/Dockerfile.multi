@@ -10,4 +10,6 @@ WORKDIR /app
 COPY --from=builder /root/.local /root/.local
 COPY src/ .
 ENV PATH=/root/.local/bin:$PATH
-CMD ["python", "main.py"]
+ENV PYTHONUNBUFFERED=1
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
