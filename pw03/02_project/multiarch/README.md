@@ -213,7 +213,7 @@ Manifests:
 
 ---
 
-## Schritt 6 – Dockerfile verstehen: BUILDPLATFORM vs. TARGETPLATFORM
+## Schritt 6 – Dockerfile verstehen: BUILDPLATFORM vs. TARGETPLATFORM (optional)
 
 Öffne das `Dockerfile` und schaue dir die erste Zeile an:
 
@@ -227,7 +227,10 @@ FROM python:3.12-slim AS builder
 FROM --platform=$BUILDPLATFORM python:3.12-slim AS builder
 ```
 
-> **Experiment:** Ändere das Dockerfile, baue neu für `linux/arm/v7` und beobachte
+> **Experiment (optional):** Das `Dockerfile` enthält bereits einen auskommentierten Block
+> mit Erklärungen zu diesem Experiment — lies ihn durch, bevor du Änderungen vornimmst.
+>
+> Ändere dann die `FROM`-Zeile, baue neu für `linux/arm/v7` und beobachte
 > den Unterschied in der Buildzeit.
 >
 > **Achtung:** Bei Paketen mit nativem C-Code (wie `pydantic`) kann das zu Fehlern führen,

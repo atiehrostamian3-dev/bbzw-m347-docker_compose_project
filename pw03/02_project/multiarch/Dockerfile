@@ -19,6 +19,26 @@ WORKDIR /build
 COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
+# ---------------------------------------------------------------------------
+# OPTIONAL – Experiment: BUILDPLATFORM vs. TARGETPLATFORM (Schritt 6)
+#
+# Ersetze die FROM-Zeile oben durch:
+#   FROM --platform=$BUILDPLATFORM python:3.12-slim AS builder
+#
+# Was passiert:
+#   → Builder läuft NATIV auf dem Host (z.B. amd64) – kein QEMU → viel schneller
+#   → ABER: C-Extensions (ujson, uvloop, httptools) werden für amd64 kompiliert,
+#     nicht für arm/v7 → der Container crasht beim Start auf dem Raspberry Pi!
+#
+# Zum Beobachten der Zielplattform folgende Zeilen nach FROM einfügen:
+#   ARG TARGETARCH
+#   ARG TARGETPLATFORM
+#   RUN echo "Zielplattform: $TARGETPLATFORM, Architektur: $TARGETARCH"
+#
+# Fazit: --platform=$BUILDPLATFORM funktioniert nur für reine Python-Packages
+# oder wenn Wheels gezielt für die Zielarchitektur heruntergeladen werden.
+# ---------------------------------------------------------------------------
+
 # --- Runtime Stage ---
 # Bleibt in beiden Optionen python:3.12-slim – der Builder wird weggeworfen,
 # nur /root/.local (installierte Pakete) wird übernommen.
