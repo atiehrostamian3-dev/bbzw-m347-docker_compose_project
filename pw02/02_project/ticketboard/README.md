@@ -205,6 +205,30 @@ Testen Sie zusätzlich:
 
 ---
 
+## Exkurs: Named Volumes vs. Bind Mounts
+
+Du hast soeben ein **Named Volume** eingerichtet (`postgres_data`). Docker verwaltet dieses Volume selbst – du weisst nicht, wo auf dem Host die Daten liegen, und das ist auch nicht nötig.
+
+Es gibt eine zweite Art von Volume: den **Bind Mount**. Dabei wird ein Verzeichnis vom Host direkt in den Container eingehängt:
+
+```yaml
+services:
+  api:
+    volumes:
+      - ./app:/project/app   # Host-Pfad : Container-Pfad
+```
+
+| | Named Volume | Bind Mount |
+|---|---|---|
+| Daten liegen | Docker verwaltet | Auf dem Host (z.B. `./app`) |
+| Typischer Einsatz | Datenbankdaten (Produktion) | Code-Entwicklung (live reload) |
+| Vorteil | Portierbar, kein Host-Pfad nötig | Änderungen sofort im Container sichtbar |
+| Nachteil | Kein direkter Zugriff | Pfad-Abhängigkeit zum Host |
+
+**Für TicketBoard:** PostgreSQL-Daten → Named Volume (du hast es richtig gemacht). Code → Bind Mount wäre nützlich in der Entwicklung, damit du nach einer Codeänderung nicht immer neu builden musst. In diesem Projekt belassen wir es beim normalen Build, aber das Prinzip ist wichtig für die Praxis.
+
+---
+
 ## Architektur
 
 Erstellen Sie:
