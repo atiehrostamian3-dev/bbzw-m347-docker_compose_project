@@ -12,7 +12,10 @@
 # ARM-Image würde mit "ModuleNotFoundError: pydantic_core._pydantic_core" abstürzen.
 
 # Stage 1 – Builder (läuft auf Zielplattform, QEMU emuliert wenn nötig)
+# build-essential liefert gcc/g++ für Packages ohne vorgefertigte ARM-Wheels
+# (z. B. ujson, httptools, uvloop) – bleibt dank Multi-Stage nicht im Runtime-Image
 FROM python:3.12-slim AS builder
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 
 # Verfügbare Build-ARGs (automatisch von BuildKit gesetzt):
